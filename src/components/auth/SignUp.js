@@ -3,13 +3,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useState } from 'react';
+
+import { useAuth } from '../../context/authContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,6 +46,8 @@ export default function SignUp() {
     const [passwordError, setPasswordError] = useState(false);    
     const [firstNameError, setFirstNameError] = useState(false);    
     const [lastNameError, setLastNameError] = useState(false);    
+
+    const { signUp } = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -68,7 +73,8 @@ export default function SignUp() {
         }
 
         if(email && password && firstName && lastName) {
-            console.log(email, password, firstName, lastName);
+          signUp(email, password, firstName, lastName)
+          history.push('/');            
         }
     }
 
