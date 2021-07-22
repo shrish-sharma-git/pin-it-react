@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Typography, TextField } from '@material-ui/core';
+import { Button, Container, Typography, TextField, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useState } from 'react';
 
@@ -23,6 +23,8 @@ const MakeNote = () => {
     const [titleError, setTitleError] = useState(false);
     const [contentError, setContentError] = useState(false);
 
+    const [category, setCategory] = useState('misc');
+
     const handleSubmit = (e) => {
         e.preventDefault()
         setTitleError(false);
@@ -37,7 +39,7 @@ const MakeNote = () => {
         }
 
         if(title && content){
-            console.log(title, content);
+            console.log(title, content, category);
         }
     }
 
@@ -74,6 +76,18 @@ const MakeNote = () => {
                     required
                     error={contentError}
                 />
+
+                <FormControl className={classes.field}>
+                    <FormLabel>Categories</FormLabel>
+                    <RadioGroup value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <FormControlLabel value="todo" control={<Radio />} label="Todo" />
+                    <FormControlLabel value="study" control={<Radio />} label="Study" />
+                    <FormControlLabel value="work" control={<Radio />} label="Work" />
+                    <FormControlLabel value="reminder" control={<Radio />} label="Reminder" />
+                    <FormControlLabel value="misc" control={<Radio />} label="Miscellaneous" />
+                    </RadioGroup>
+                </FormControl>
+
                 <Button
                     type="submit"
                     color="primary"
