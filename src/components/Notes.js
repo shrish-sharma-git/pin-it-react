@@ -1,8 +1,9 @@
-import { Grid, Paper } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { firestore } from '../firebase/config';
+import NoteCard from './parts/StickyCard';
 
 const Notes = () => {
     // State Hook
@@ -22,18 +23,18 @@ const Notes = () => {
             })
     }, [])
 
-    console.log(notes)
+    console.log(notes);
 
     return (  
-        <div className="notes">
-            <Grid container>
+        <Container>
+            <Grid container spacing={3}>
                 {notes.map(note => (
                     <Grid item key={note.id} xs={12} md={6} lg={4}>
-                        <Paper>{ note.Title }</Paper>
+                        <NoteCard note={note}/>
                     </Grid>
                 ))}
             </Grid>
-        </div>
+        </Container>
     );
 }
  
