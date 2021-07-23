@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Container, Typography, TextField, FormControl, FormLabel, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { useState } from 'react';
+import { firestore } from '../firebase/config';
+
+import { useAuth } from '../context/authContext';
 
 // Custom CSS Hook
 const useStyles = makeStyles({
@@ -25,6 +28,10 @@ const MakeNote = () => {
 
     const [category, setCategory] = useState('misc');
 
+    const { currentUser } = useAuth();
+
+    const authorId = currentUser.uid;
+
     const handleSubmit = (e) => {
         e.preventDefault()
         setTitleError(false);
@@ -39,7 +46,17 @@ const MakeNote = () => {
         }
 
         if(title && content){
-            console.log(title, content, category);
+            firestore.collection('notes').add({
+                Title: title,
+                Content: content,
+                Category: category,
+                authorId: authorId,
+                createdAt: new Date()
+            }).then(() => {
+                console.log('Note Added Successfully!');
+            }).catch((err) => {
+                console.error("Error Adding Note.", err);
+            })
         }
     }
 
