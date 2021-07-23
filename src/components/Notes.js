@@ -11,26 +11,27 @@ const Notes = () => {
     // Fetching Data
     useEffect(() => {
         const data = firestore.collection('notes')
+            .orderBy('createdAt', 'desc')
             .get()
-            .then((snapshot) => {
-                snapshot.forEach(element => {
-                    const data = snapshot.docs.map(doc => ({...doc.data(), key: doc.id}));
-                    setNotes(data);
-                    console.log("Fetched Data", data);
-                });
+            .then(snap => {
+                const documents = [];
+                snap.forEach(doc => {
+                    documents.push({...doc.data(), id: doc.id});
+                })
+                setNotes(documents);
             })
     }, [])
+
+    console.log(notes)
 
     return (  
         <div className="notes">
             <Grid container>
-                {notes && notes.map(note => {
-                    return (
-                    <Grid item key={note.id} xs={12}>
+                {notes.map(note => (
+                    <Grid item key={note.id} xs={12} md={6} lg={4}>
                         <Paper>{ note.Title }</Paper>
                     </Grid>
-                )
-                })}
+                ))}
             </Grid>
         </div>
     );
