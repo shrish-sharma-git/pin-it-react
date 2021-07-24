@@ -25,12 +25,21 @@ const Notes = () => {
 
     console.log(notes);
 
+    const handleDelete = async (id) => {
+        await firestore.collection('notes').doc(id).delete()
+            .then(() => {
+                console.log('Note Deleted.')
+                const newNotes = notes.filter(note => note.id != id)
+                setNotes(newNotes);
+            })
+    }
+
     return (  
         <Container>
             <Grid container spacing={3}>
                 {notes.map(note => (
                     <Grid item key={note.id} xs={12} md={6} lg={4}>
-                        <NoteCard note={note}/>
+                        <NoteCard note={note} handleDelete={handleDelete}/>
                     </Grid>
                 ))}
             </Grid>

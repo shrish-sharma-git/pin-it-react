@@ -2,13 +2,13 @@ import { Card, CardContent, CardHeader, IconButton, Typography } from '@material
 import { DeleteOutlined } from '@material-ui/icons';
 import React from 'react';
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, handleDelete }) => {
     return (      
         <div>
             <Card elevation={3}>
                 <CardHeader
                     action={
-                        <IconButton onClick={() => console.log('Delete', note.Title)}>
+                        <IconButton onClick={() => handleDelete(note.id)}>
                             <DeleteOutlined/>
                         </IconButton>
                     }
