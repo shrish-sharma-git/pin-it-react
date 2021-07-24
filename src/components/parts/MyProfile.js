@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, CardContent, CardHeader, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import ExitToAppSharpIcon from '@material-ui/icons/ExitToAppSharp';
 import Avatar from '@material-ui/core/Avatar';
 import { useAuth } from '../../context/authContext';
+import { firestore } from '../../firebase/config';
+import { useState } from 'react';
 
 const useStyles = makeStyles({
     root: {
@@ -28,8 +30,29 @@ const useStyles = makeStyles({
 const MyProfile = () => {
     const classes = useStyles();
 
+    // Fetching UserData
     const { currentUser } = useAuth();
+    const userUid = currentUser.uid;
+    const [username, setUsername] = useState();
 
+    useEffect(() => {
+        firestore.collection('users')
+        .doc(userUid)
+        .get()
+        .then((doc) => {
+            if(doc.exists){
+                var data = doc.data();
+                setUsername(data);
+                console.log(data);
+            }
+            else {
+                console.log("No data fetched")
+            }
+        }).catch((err) => {
+            console.log("error", err);
+        })
+    }, [])
+    
     return (  
         <div>
             <Grid
@@ -47,13 +70,13 @@ const MyProfile = () => {
                             className={classes.header}
                         />
                         <Avatar className={classes.avatar}>
-                            SS
+                            {username.initials}
                         </Avatar>
                         <CardContent className={classes.content}>
                             <Typography
                                 variant="h4"
                             >
-                                Shrish Sharma
+                                {username.firstName + " " + username.lastName}
                             </Typography>
                             <Typography
                                 variant="h6"
