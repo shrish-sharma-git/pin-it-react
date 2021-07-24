@@ -5,6 +5,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import { AuthProvider } from "./context/authContext";
 import Layout from "./components/Layout";
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -12,18 +13,10 @@ function App() {
       <Router>
         <Layout>
           <Switch>
-            <Route exact path='/'>
-              <Notes />
-            </Route>
-            <Route path='/MakeNote'>
-              <MakeNote />
-            </Route>
-            <Route path='/SignIn'>
-              <SignIn />
-            </Route>
-            <Route path='/SignUp'>
-              <SignUp />
-            </Route>
+            <PrivateRoute exact path='/' component={Notes} />
+            <PrivateRoute path='/MakeNote' component={MakeNote} />
+            <Route path='/SignUp' component={SignUp} />
+            <Route path='/SignIn' component={SignIn} />
           </Switch>
         </Layout>
       </Router>

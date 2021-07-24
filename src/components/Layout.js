@@ -5,24 +5,17 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useState } from 'react';
-import PlaylistAddCheckSharpIcon from '@material-ui/icons/PlaylistAddCheckSharp';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { DashboardOutlined, DashboardRounded } from '@material-ui/icons';
-import { Card, ListItemIcon } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 import { useHistory } from 'react-router';
 import { useAuth } from '../context/authContext';
 import SignedInLinks from './parts/SignedInLinks';
 import SignedOutLinks from './parts/SignedOutLinks';
-import { firestore } from '../firebase/config';
+
+import PrivateRoute from './PrivateRoute';
 
 const drawerWidth = 240;
 
@@ -73,38 +66,14 @@ const Layout = ({ children }, props) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const menuItems = [
-      {
-          text: 'My Notes',
-          icon: <DashboardRounded/>,
-          path: '/'
-      },
-      {
-          text: 'Make Note',
-          icon: <AddCircleOutlineSharpIcon/>,
-          path: '/MakeNote'
-      }
-  ]
+  // const links = currentUser.uid ? <SignedInLinks /> : <SignedOutLinks />;
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
-        {menuItems.map(item => (
-            <ListItem
-                button
-                key={item.text}
-                onClick={() => history.push(item.path)}
-            >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text}/>
-            </ListItem>
-        ))}
-      </List>
+        <SignedInLinks />
       <Divider />
-      <SignedInLinks />
-      <SignedOutLinks />
     </div>
   );
 

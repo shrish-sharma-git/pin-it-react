@@ -63,7 +63,6 @@ const MakeNote = () => {
             })
         }
     }
-
     return (  
         <Container>
             <Typography
