@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { firestore } from '../firebase/config';
 
 import { useAuth } from '../context/authContext';
+import { useHistory } from 'react-router-dom';
 
 // Custom CSS Hook
 const useStyles = makeStyles({
@@ -30,6 +31,8 @@ const MakeNote = () => {
 
     const { currentUser } = useAuth();
 
+    const history = useHistory();
+
     const authorId = currentUser.uid;
 
     const handleSubmit = (e) => {
@@ -54,6 +57,7 @@ const MakeNote = () => {
                 createdAt: new Date()
             }).then(() => {
                 console.log('Note Added Successfully!');
+                history.push('/');
             }).catch((err) => {
                 console.error("Error Adding Note.", err);
             })
@@ -97,11 +101,11 @@ const MakeNote = () => {
                 <FormControl className={classes.field}>
                     <FormLabel>Categories</FormLabel>
                     <RadioGroup value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <FormControlLabel value="todo" control={<Radio />} label="Todo" />
-                    <FormControlLabel value="study" control={<Radio />} label="Study" />
-                    <FormControlLabel value="work" control={<Radio />} label="Work" />
-                    <FormControlLabel value="reminder" control={<Radio />} label="Reminder" />
-                    <FormControlLabel value="misc" control={<Radio />} label="Miscellaneous" />
+                    <FormControlLabel value="Todo" control={<Radio />} label="Todo" />
+                    <FormControlLabel value="Study" control={<Radio />} label="Study" />
+                    <FormControlLabel value="Work" control={<Radio />} label="Work" />
+                    <FormControlLabel value="Reminder" control={<Radio />} label="Reminder" />
+                    <FormControlLabel value="Miscellaneous" control={<Radio />} label="Miscellaneous" />
                     </RadioGroup>
                 </FormControl>
 
