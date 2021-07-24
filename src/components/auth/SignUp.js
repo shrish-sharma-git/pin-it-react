@@ -74,6 +74,7 @@ export default function SignUp() {
 
         if(email && password && firstName && lastName) {
           signUp(email, password, firstName, lastName)
+          console.log("New User Created")
           history.push('/');            
         }
     }

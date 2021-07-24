@@ -6,6 +6,7 @@ import SignUp from "./components/auth/SignUp";
 import { AuthProvider } from "./context/authContext";
 import Layout from "./components/Layout";
 import PrivateRoute from './components/PrivateRoute';
+import MyProfile from "./components/parts/MyProfile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <PrivateRoute path='/MakeNote' component={MakeNote} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/SignIn' component={SignIn} />
+            <Route path='/MyProfile' component={MyProfile} />
           </Switch>
         </Layout>
       </Router>

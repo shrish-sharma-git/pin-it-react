@@ -60,7 +60,8 @@ export default function SignIn() {
 
         if(email && password){
             login(email, password);
-            history.push('/')
+            console.log("Signed In.")
+            history.push('/');
         }
     }
 

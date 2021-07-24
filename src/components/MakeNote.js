@@ -27,7 +27,7 @@ const MakeNote = () => {
     const [titleError, setTitleError] = useState(false);
     const [contentError, setContentError] = useState(false);
 
-    const [category, setCategory] = useState('misc');
+    const [category, setCategory] = useState('Miscellaneous');
 
     const { currentUser } = useAuth();
 

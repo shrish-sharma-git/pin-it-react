@@ -13,9 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router';
 import { useAuth } from '../context/authContext';
 import SignedInLinks from './parts/SignedInLinks';
-import SignedOutLinks from './parts/SignedOutLinks';
-
-import PrivateRoute from './PrivateRoute';
 
 const drawerWidth = 240;
 
@@ -65,8 +62,6 @@ const Layout = ({ children }, props) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  // const links = currentUser.uid ? <SignedInLinks /> : <SignedOutLinks />;
 
   const drawer = (
     <div>
