@@ -57,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
   alignToolbar: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  headname: {
+    marginTop: -46,
+    textAlign: "center",
+    marginBottom: 11
   }
 }));
 
@@ -83,6 +88,7 @@ const Layout = ({ children }, props) => {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
+      <Typography className={classes.headname} variant="h5">Pin-It</Typography>
       <Divider />
         <SignedInLinks />
       <Divider />
@@ -109,7 +115,9 @@ const Layout = ({ children }, props) => {
           <Typography variant="h6" noWrap className={classes.date}>
             {moment().format('MMMM Do YYYY, h:mm a')}
           </Typography>
-          <Avatar className={classes.avatar}>
+          <Avatar className={classes.avatar} 
+            onClick={() => history.push('/MyProfile')}
+          >
             {user && user.initials}
           </Avatar>
         </Toolbar>
