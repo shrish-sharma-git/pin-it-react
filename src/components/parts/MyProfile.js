@@ -36,23 +36,15 @@ const MyProfile = () => {
     const [username, setUsername] = useState();
 
     useEffect(() => {
-        firestore.collection('users')
-        .doc(userUid)
-        .get()
-        .then((doc) => {
-            if(doc.exists){
-                var data = doc.data();
-                setUsername(data);
-                console.log(data);
-            }
-            else {
-                console.log("No data fetched")
-            }
-        }).catch((err) => {
-            console.log("error", err);
-        })
+        firestore.collection('users').doc(userUid).get()
+            .then(snap => {
+                var data = snap.data();
+                console.log(data)
+                setUsername(data)
+            }).catch((e) => console.log(e))
+
     }, [])
-    
+        
     return (  
         <div>
             <Grid
@@ -70,13 +62,13 @@ const MyProfile = () => {
                             className={classes.header}
                         />
                         <Avatar className={classes.avatar}>
-                            {username.initials}
+                            {username && username.initials}
                         </Avatar>
                         <CardContent className={classes.content}>
                             <Typography
                                 variant="h4"
                             >
-                                {username.firstName + " " + username.lastName}
+                                {username && username.firstName + " " + username.lastName}
                             </Typography>
                             <Typography
                                 variant="h6"
