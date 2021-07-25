@@ -15,6 +15,8 @@ import { useAuth } from '../context/authContext';
 import SignedInLinks from './parts/SignedInLinks';
 import moment from 'moment';
 
+import useProfile from './useProfile';
+import { Avatar } from '@material-ui/core'; 
 
 const drawerWidth = 240;
 
@@ -49,6 +51,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  avatar: {
+    backgroundColor: "red",
+  },
+  alignToolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+  }
 }));
 
 const Layout = ({ children }, props) => {
@@ -60,6 +69,12 @@ const Layout = ({ children }, props) => {
   
   const { currentUser } = useAuth();
   console.log(currentUser);
+
+  const userUid = currentUser?.uid;
+
+  const { user } = useProfile(userUid);
+
+  console.log(user + 'This comes to layout')
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -80,7 +95,7 @@ const Layout = ({ children }, props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.alignToolbar}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -90,13 +105,16 @@ const Layout = ({ children }, props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          {/* <Typography variant="h6">Welcome {user && user.firstName}</Typography> */}
+          <Typography variant="h6" noWrap className={classes.date}>
             {moment().format('MMMM Do YYYY, h:mm a')}
           </Typography>
+          <Avatar className={classes.avatar}>
+            {user && user.initials}
+          </Avatar>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
