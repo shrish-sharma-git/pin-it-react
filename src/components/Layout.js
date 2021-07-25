@@ -13,6 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router';
 import { useAuth } from '../context/authContext';
 import SignedInLinks from './parts/SignedInLinks';
+import moment from 'moment';
+
 
 const drawerWidth = 240;
 
@@ -89,7 +91,7 @@ const Layout = ({ children }, props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Welcome,
+            {moment().format('MMMM Do YYYY, h:mm a')}
           </Typography>
         </Toolbar>
       </AppBar>
