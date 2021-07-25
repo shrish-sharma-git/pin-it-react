@@ -18,7 +18,7 @@ function App() {
             <PrivateRoute path='/MakeNote' component={MakeNote} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/SignIn' component={SignIn} />
-            <Route path='/MyProfile' component={MyProfile} />
+            <PrivateRoute path='/MyProfile' component={MyProfile} />
           </Switch>
         </Layout>
       </Router>

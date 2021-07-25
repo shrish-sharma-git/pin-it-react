@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, Redirect, useHistory} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: {
+    backgroundColor: 'pink',
+    color: 'red',
+    width: '400px',
+    marginTop: '10px',
+    padding: '20px',
+    textAlign: 'center',
+  }
 }));
 
 export default function SignIn() {
@@ -41,11 +49,13 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
 
     const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);    
+    const [passwordError, setPasswordError] = useState(false);
+    const [btndisable, setBtnDisable] = useState(false);    
+    const [error, setError] = useState("");    
     
-    const { login } = useAuth()
+    const { login, currentUser } = useAuth()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setEmailError(false);
         setPasswordError(false);
@@ -59,12 +69,34 @@ export default function SignIn() {
         }
 
         if(email && password){
-            login(email, password);
-            console.log("Signed In.")
-            history.push('/');
+          //   try {
+          //     setError("");
+          //     login(email, password);
+          //     setBtnDisable(true);
+          //     setTimeout(() => {
+          //       history.push('/');
+          //       console.log("Redirecting....")
+          //     }, 3000);
+          //     console.log("Signed In.")
+          //     }
+          //   catch {
+          //     setError("Failed To Login");
+          //     console.log(error);
+          // }
+
+          try {
+            setError("")
+            setBtnDisable(true)
+            await login(email, password)
+            console.log("User Logged In")
+            history.push("/")
+          } catch {
+            setError("Failed to log in")
+          }
+          setBtnDisable(false);
         }
     }
-
+    
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -107,6 +139,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={btndisable}
             className={classes.submit}
           >
             Sign In
@@ -118,6 +151,11 @@ export default function SignIn() {
               <Link to='/SignUp' variant="body2">
                 Don't have an account? Sign Up
               </Link>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item>
+              {error && <Typography className={classes.error}>{error}</Typography> }
             </Grid>
           </Grid>
         </form>

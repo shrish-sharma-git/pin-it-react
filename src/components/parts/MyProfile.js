@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { useAuth } from '../../context/authContext';
 import { firestore } from '../../firebase/config';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -29,9 +30,10 @@ const useStyles = makeStyles({
 
 const MyProfile = () => {
     const classes = useStyles();
+    const history = useHistory();
+    const { currentUser, logout } = useAuth();
 
     // Fetching UserData
-    const { currentUser } = useAuth();
     const userUid = currentUser.uid;
     const [username, setUsername] = useState();
 
@@ -44,7 +46,20 @@ const MyProfile = () => {
             }).catch((e) => console.log(e))
 
     }, [])
-        
+    
+    const [error, setError] = useState("")
+
+    // Handling Logout
+    async function handleLogout() {
+        setError("")
+        try {
+          await logout()
+          history.push("/SignIn")
+        } catch {
+          setError("Failed to log out")
+        }
+    }
+
     return (  
         <div>
             <Grid
@@ -82,6 +97,7 @@ const MyProfile = () => {
                     endIcon={<ExitToAppSharpIcon/>}
                     color="primary"
                     variant="contained"
+                    onClick={handleLogout}
                 >
                     Sign Out
                 </Button>

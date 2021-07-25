@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: {
+    backgroundColor: 'pink',
+    color: 'red',
+    width: '400px',
+    marginTop: '10px',
+    padding: '20px',
+    textAlign: 'center',
+  }
 }));
 
 export default function SignUp() {
@@ -45,11 +53,15 @@ export default function SignUp() {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);    
     const [firstNameError, setFirstNameError] = useState(false);    
-    const [lastNameError, setLastNameError] = useState(false);    
+    const [lastNameError, setLastNameError] = useState(false);
+    
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+  
 
     const { signUp } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setEmailError(false);
         setPasswordError(false);
@@ -73,9 +85,20 @@ export default function SignUp() {
         }
 
         if(email && password && firstName && lastName) {
-          signUp(email, password, firstName, lastName)
-          console.log("New User Created")
-          history.push('/');            
+          // signUp(email, password, firstName, lastName)
+          // console.log("New User Created")
+          // history.push('/');
+
+          try {
+              setError("")
+              setLoading(true)
+              await signUp(email, password, firstName, lastName)
+              console.log('New User Created');
+              history.push("/")
+            } catch {
+              setError("Failed to create an account")
+            }
+            setLoading(false)
         }
     }
 
@@ -151,6 +174,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={loading}
             className={classes.submit}
           >
             Sign Up
@@ -160,6 +184,11 @@ export default function SignUp() {
               <Link to='/SignIn' variant="body2">
                 Already have an account? Sign in
               </Link>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item>
+              {error && <Typography className={classes.error}>{error}</Typography>}
             </Grid>
           </Grid>
         </form>
