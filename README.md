@@ -9,6 +9,6 @@ It offers Categories which can help you in segregating your Sticky Notes for eas
 
 ## **Other Third-Party Services Used**:
 * **Moment.js** - Used to Format the Date and Time.
-* **Material Icons** - Used alongwith Material UI.
 * **React Routing** - To Route Page Components.
+* **Material Icons** - Used alongwith Material UI.
 * **Firebase Hosting** - To Host the Production Build of Web Application.
